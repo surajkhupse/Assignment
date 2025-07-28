@@ -1,35 +1,85 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useQuery } from '@tanstack/react-query';
+import { Button, Stack, Box, Typography } from '@mui/material';
+import { useState } from 'react';
 
-function App() {
-  const [count, setCount] = useState(0)
+type CommentType = {
+  id: number;
+  email: string;
+  body: string;
+};
+
+const fetchComments = async () => {
+  const res = await fetch('https://jsonplaceholder.typicode.com/comments');
+  if (!res.ok) {
+    throw new Error('Network response was not ok');
+  }
+  return res.json();
+};
+
+const App = () => {
+  const [clickCount, setClickCount] = useState(0);
+
+  const { data, isLoading, isError, error, refetch } = useQuery({
+    queryKey: ['comments'],
+    queryFn: fetchComments,
+    enabled: false,
+  });
+
+  const handleClick = () => {
+    setClickCount(prev => prev + 1);
+    refetch(); // Manually trigger fetch
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        height: '100vh',
+        width: '100vw',
+        p: 2,
+      }}
+    >
+       <Typography variant="h5" sx={{ mb: 2 }}>
+        Button clicked: {clickCount} {clickCount === 1 ? 'time' : 'times'}
+      </Typography>
+      <Button variant="contained" onClick={handleClick}>
+        Fetch Data
+      </Button>
 
-export default App
+      <Stack
+        spacing={2}
+        sx={{
+          mt: 4,
+          width: '100vw',
+          maxWidth: '94%',
+          maxHeight: '70vh',
+          overflowY: 'auto',
+        }}
+      >
+        {isLoading && <Typography>Loading...</Typography>}
+        {isError && <Typography color="error">Error: {error.message}</Typography>}
+
+        {data &&
+          data.map((comment: CommentType) => (
+            <Box
+              key={comment.id}
+              sx={{
+                border: '1px solid #ccc',
+                borderRadius: 2,
+                p: 2,
+              }}
+            >
+              <Typography variant="subtitle1" fontWeight={600}>
+                {comment.email}
+              </Typography>
+              <Typography variant="body2">{comment.body}</Typography>
+            </Box>
+          ))}
+      </Stack>
+    </Box>
+  );
+};
+
+export default App;
