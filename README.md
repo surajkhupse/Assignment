@@ -29,41 +29,57 @@ export default tseslint.config([
       // Other configs...
     ],
     languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+
+# Assignment React Project
+
+This project is a simple React app using Material UI and React Query. It demonstrates fetching data from an API, a prominent animated counter, and best practices for state management and UI.
+
+## Features
+- Fetches a list of items from a mock API (`https://jsonplaceholder.typicode.com/comments`)
+- Button to trigger data fetch and increment a counter
+- Counter is visually prominent and can be animated
+- Uses React Query for data fetching and caching
+- Uses Material UI for layout and styling
+
+## Getting Started
+
+### Prerequisites
+- Node.js (v16 or above recommended)
+- npm or yarn
+
+### Installation
+1. Clone the repository:
+   ```sh
+   git clone <repo-url>
+   cd Assignment
+   ```
+2. Install dependencies:
+   ```sh
+   npm install
+   # or
+   yarn install
+   ```
+
+### Running the App
+```sh
+npm run dev
+# or
+yarn dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+The app will be available at `http://localhost:5173` (or as shown in your terminal).
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Project Structure
+- `src/App.tsx` — Main app component
+- `src/App.css` — App styles
+- `public/` — Static assets
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Best Practices Used
+- Component-based structure
+- API logic separated from UI
+- Material UI for consistent design
+- React Query for efficient data fetching
+- TypeScript for type safety
+
+## License
+MIT
