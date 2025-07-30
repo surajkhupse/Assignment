@@ -1,23 +1,14 @@
+
 import { useQuery } from '@tanstack/react-query';
 import { Button, Stack, Box, Typography } from '@mui/material';
-import { useState } from 'react';
+import { useClickStore } from './store/useClickStore';
+import { fetchComments } from './api/fetchComments';
+import type { CommentType } from './types/CommentType';
 
-type CommentType = {
-  id: number;
-  email: string;
-  body: string;
-};
-
-const fetchComments = async () => {
-  const res = await fetch('https://jsonplaceholder.typicode.com/comments');
-  if (!res.ok) {
-    throw new Error('Network response was not ok');
-  }
-  return res.json();
-};
 
 const App = () => {
-  const [clickCount, setClickCount] = useState(0);
+  const clickCount = useClickStore((state) => state.clickCount);
+  const increment = useClickStore((state) => state.increment);
 
   const { data, isLoading, isError, error, refetch } = useQuery({
     queryKey: ['comments'],
@@ -26,7 +17,7 @@ const App = () => {
   });
 
   const handleClick = () => {
-    setClickCount(prev => prev + 1);
+    increment();
     refetch(); // Manually trigger fetch
   };
 
