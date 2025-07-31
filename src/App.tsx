@@ -1,6 +1,6 @@
 
 import { useQuery } from '@tanstack/react-query';
-import { Button, Stack, Box, Typography } from '@mui/material';
+import { Button, Stack, Box, Typography, Zoom } from '@mui/material';
 import { useClickStore } from './store/useClickStore';
 import { fetchComments } from './api/fetchComments';
 import type { CommentType } from './types/CommentType';
@@ -32,9 +32,11 @@ const App = () => {
         p: 2,
       }}
     >
-       <Typography variant="h5" sx={{ mb: 2 }}>
-        Button clicked: {clickCount} {clickCount === 1 ? 'time' : 'times'}
-      </Typography>
+      <Zoom in key={clickCount}>
+        <Typography variant="h5" sx={{ mb: 2 }}>
+          Button clicked: {clickCount} {clickCount === 1 ? 'time' : 'times'}
+        </Typography>
+      </Zoom>
       <Button variant="contained" onClick={handleClick}>
         Fetch Data
       </Button>

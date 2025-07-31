@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-interface ClickState {
+type ClickState = {
   clickCount: number;
   increment: () => void;
 }
